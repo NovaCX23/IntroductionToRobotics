@@ -9,7 +9,7 @@ Each homework is in its own folder and has its own README. Every README describe
 | # | Topic | Folder | Status |
 |---|-------|--------|--------|
 | 1 | Lab group registration (submitted on Teams) | - | Done |
-| 2 | Basic Electrical Circuits (Falstad simulations) | [Homework 1](./Homework%201/) | In progress |
+| 2 | Basic Electrical Circuits (Falstad simulations) | [Homework 2](./Homework%201/) | In progress |
 
 ## Tools used
 
