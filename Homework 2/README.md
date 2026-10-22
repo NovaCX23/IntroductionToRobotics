@@ -10,6 +10,7 @@ In this homework I built three circuits in the [Falstad Circuit Simulator](https
 | 2 | [Parallel circuit (9 V)](#2-parallel-circuit-9-v-dc) | Two resistor + LED branches carrying different currents (10 mA and 14.89 mA) | [▶ open](https://www.falstad.com/circuit/circuitjs.html?ctz=DwYwlgTgBAZgvAIgIwKgFwM6IAwDpsEECsqYIiSeATAVQOx0DM2AHFQGwCcndqIARoiLZUAB0EIALI1QA3CENQBbTEICmAWiQoAfAFgAUFCjBZUAB4V22KPSpQk1261Txk7VAHc3IqEoCG5rKInAgA9PpGJp4WVjY0LA5OSJKSrjjhkcbAMZbuNimStiyJhekIIhGG2bmIVCUOqVCMLEVlsBlVUcDQefWlTf0OnFTlvgoIdASZ1dGxCENII8WJCWMz3QAyAKIAIvNDCSu2RB4dFcoA9ogAJmow-gCuADZoGs9qN3wTKFAgAOYZP4SXxKfjkCr4FBdGoHBpUU7HOzrGEmXqIFptJqY4ajc7jRCSKYbWF5HFLew4tb4kkmHb7MmtZyJKmndZ+a4IO4PF5vD5fP4-PiAi7AoFgiF4bDQrJzRlFBHsZpM5E01E5eaOeJ0eyHHUo2UavrwnXKhX6tWRYBhcAQHRAA) |
 | 3a | [RC circuit (12 V), capacitors in series](#3-rc-circuit-12-v-dc) | Push button charges the capacitors; on release the LED fades out | [▶ open](https://www.falstad.com/circuit/circuitjs.html?ctz=DwYwlgTgBAZgvAIgIwKgFwM6IAwDpsEECsqYIiSeATAVQOx0DM2AHFQGwCcndqIARoiLZUAB0EIALI1QA3CENQBbTEICmAWiQoAfAFgAUFCjBZUAB4V22KPSpQk1261Txk7VAHc3IqEoCG5rIUVAgA9PpGJp4WVjZInPaONjQsrjjhkcbAGLEIqQ6SkrZE7IWS6Qi+ohTKSohoEACuapmG2dCWCIw05VCMRElFlb4KyARtUcCdiNJDxZLsxUjDsBlQY5QTEe0mADIAogAieURI9gVnF6UjygD2iAAmajD+TQA2aBrvao98m3wAObrATrJT8chVfAoHZTEB5RgsZZ0MqI4qpW5QSF4AgoKBgYJQ3GoDBjXyyR6IRj4KhUTiSM5EAasRKSUKw7Lwrpo2xUYo8qg3NZVPg4fDYPEEsXEqCk9YUqnQojK7g9FgMLiTbIxLqCsorfm9A23DnRBGDPo843CkSm4A6qlIvpzcomrJm7lOpAo-pe1Y+LUe2ZLPpXV02wP207nUMxjERu0OhBhvVQFN0UIJ91RrrJWwZ-qMMp2N27HOO9EF9OZgOJhFO1MCjOlqZJvMJJJOa217NtrtFZwscM9stJgWsX3ovkt7UIov5+xNmsZO2iOf6xKF4vN4UyPxqdYYbGoCAH8aEQiRsden2MefejxZ0frhy3++JGdB-KlPp8+L+ldszuKA1AAO0QWkSRqBAlkqcxM2gkR3WyNdCV8I8INtbMwjuSJgDCcAIEiIA) |
 | 3b | [RC circuit (12 V), capacitors in parallel](#3-rc-circuit-12-v-dc) | Same circuit, 4× larger capacitance, so it charges and fades 4× slower | [▶ open](https://www.falstad.com/circuit/circuitjs.html?ctz=DwYwlgTgBAZgvAIgIwKgFwM6IAwDpsEECsqYIiSeATAVQOx0DM2AHFQGwCcndqIARoiLZUAB0EIALI1QA3CENQBbTEICmAWiQoAfACgoUYLKgAPCu2xR6VKEkvXWqeMnaoA7i5FQlAQ1OyFFQIAPT6hsDuZhZWSJy29lY0LM44oeFG0OYIjDR2kpJQjEQJBakI3grIBOkGmdFSufmFkuyFSGWwaVBVlDVhdcAAMgCiACINREi2yVBTM0RuXRXKAPaIACZqML4ArgA2aBr7aht8vXwA5t0C3Ur85BX4KAMRIA3FCfFFJdZUkuVvI88AQUFAwIEnqDUBgqt5ZBs0q8jO9spJ7HZvuj2H8AcsgTh8NgwRDCdCoLDugikRlIg0qItmkU8h08V5ahEotlPkzGCx2p12ci6dz+UzpKU2TTBlzEHz2nQcfLmoCOUZZVI2kz5ir8WqRUJptqjclVcKNTqGTjLXRgnrzQ1EtZbc6ZrazbSNcqbHMTe77Z6PmKrUVg-6hYHsk64gkHKyPTLHXGCo4WLqI4nuYwcT7veHpRFRPSXUhFa7rItyjIfGpuhhgagILXqoRCPqvb8Y6H2vEE5ygz3bNjMXaM-3RQqlWKY331R9flR-t3cbODTlg0vh4upSsHRPccurauNT7S1PJ8fi27bIxs67L9kfSGn-nd7SMPTWEyQ-G9VBRBQyhKIgaAQLsaj6qsUBqAAdogNAwgBCBtOUph2khIgZIWUCQt49bwSIwohKs+jACE4AQPoQA) |
+| ★ | [Bonus: parallel circuit with a switch](#bonus-parallel-circuit-with-a-switch) | A switch in branch 2 turns LED2 on/off without affecting LED1 | [▶ open](https://www.falstad.com/circuit/circuitjs.html?ctz=DwYwlgTgBAZgvAIgIwKgFwM6IAwDpsEECsqYIiSeATAVQOx0DM2AHFQGwCcndqIARoiLZUAB0EIALI1QA3CENQBbTEICmAWiQoAfAFgAUFCjBZUAB4V22KPSpQk1261Txk7VAHc3IqEoCG5rKInAgA9PpGJp4WVjY0LA5OSJKSrjjhkcbAMZbuNizxLImF6QgiEYbZ0HlUxQ6ptvVInFRlvgoIdASZVdGxCHWJLfZDziztvVHAADIAogAiA2MJTYlURB6wGX4A9ogAJmow-gCuADZoGudqB3ydKFAgAOY7AjtK-OTl+CiV07lECtNmtbHQ2ttylNqgNGCxJA0EXCESNJlBOpJutD+nlkQ5WlA8QlJv9svMlrj4eNCVSNlsfMp9ggjicLlcbncng8+K8oU8JL5Pt88Ng-lkcYgiSCieCSeKcgNHPFwaC7HK+gravU7DSEWrIRV5YD8lBCkkbCk0gbsZqgfUzWNLeqAct7TY8aVraSTBhYVSzXjtBCGVBRBQbcbA0h7IHUs7gGFwBBIkA) |
 
 My handwritten calculations and schematics are in [`handwritten_calculations.pdf`](handwritten_calculations.pdf).
 
@@ -20,6 +21,7 @@ My handwritten calculations and schematics are in [`handwritten_calculations.pdf
 - [1. Series Circuit (5 V DC)](#1-series-circuit-5-v-dc)
 - [2. Parallel Circuit (9 V DC)](#2-parallel-circuit-9-v-dc)
 - [3. RC Circuit (12 V DC)](#3-rc-circuit-12-v-dc)
+- [Bonus: Parallel Circuit with a Switch](#bonus-parallel-circuit-with-a-switch)
 - [Acknowledgments](#acknowledgments)
 
 ## Files in this folder
@@ -30,6 +32,7 @@ My handwritten calculations and schematics are in [`handwritten_calculations.pdf
 | [`parallel_circuit.txt`](parallel_circuit.txt) | Exercise 2 – Falstad export |
 | [`rc_series.txt`](rc_series.txt) | Exercise 3 – RC circuit, capacitors in series |
 | [`rc_parallel.txt`](rc_parallel.txt) | Exercise 3 – RC circuit, capacitors in parallel |
+| [`parallel_circuit_switch.txt`](parallel_circuit_switch.txt) | Bonus – parallel circuit with a switch in branch 2 |
 | [`handwritten_calculations.pdf`](handwritten_calculations.pdf) | All calculations and schematics, done by hand |
 | [`images/`](images/) | Screenshots of each circuit running in Falstad |
 
@@ -264,15 +267,62 @@ The parallel times are about 4× the series times in both theory and simulation,
 - **Charging:** these times are only tens of milliseconds, so reading the exact moment the button was pressed on the scope adds a few ms of error, which is a large fraction of 40 ms. The formula also uses $\tau_c = R_c \cdot C_{eq}$ as an approximation: while charging, current also flows through R_d and the LED.
 - **Discharging:** a real LED is not a perfect constant 2 V. As the current drops during the fade, the LED conducts less easily and acts like extra resistance in series with R_d, which slows the discharge slightly. The longer the fade (parallel version), the more this shows.
 
-<!--
-## Bonus
+---
 
-TODO: uncomment this section (and add it to the Contents list) after completing the bonus.
-- Which circuit I changed:
-- What I changed:
-- How the behaviour changed (with calculations / Falstad measurements):
-- Falstad export: bonus_<name>.txt
--->
+## Bonus: Parallel Circuit with a Switch
+
+**What I changed:** I took the parallel circuit from [Exercise 2](#2-parallel-circuit-9-v-dc) and added a switch S between the top wire and R2 (470 Ω), so branch 2 (R2 + LED2) can be turned on and off.
+
+**Question:** when branch 2 is off, what happens to LED1 and to the total current?
+
+| Switch closed | Switch open |
+|---|---|
+| ![Switch closed, LED1 measurement](images/bonus_closed_led1.png) | ![Switch open, LED1 measurement](images/bonus_open_led1.png) |
+| Both LEDs on, LED1 carries **10.304 mA** | LED2 off, LED1 still carries **10.304 mA** |
+
+![Switch open, LED2 measurement](images/bonus_open_led2.png)
+
+*Switch open: LED2 has I = 0 A, V = 0 V, so it is completely off.*
+
+### Analysis
+
+**Step 1 – switch closed.** Same circuit as Exercise 2:
+
+$$I_1 = 10\ \text{mA} \qquad I_2 = 14.89\ \text{mA} \qquad I_{total} = 24.89\ \text{mA} \qquad R_{eq} = 281.2\ \Omega$$
+
+**Step 2 – switch open, branch 2.** The switch is open, so branch 2 is not a closed loop: $I_2 = 0$ mA and LED2 is off.
+
+**Step 3 – switch open, branch 1 (KVL).** Branch 1 is still connected directly across the source:
+
+$$V_s = V_{R1} + V_{LED1} \ \Rightarrow\ 9 = V_{R1} + 2 \ \Rightarrow\ V_{R1} = 7\ \text{V (unchanged)}$$
+
+$$I_1 = \frac{V_{R1}}{R_1} = \frac{7\ \text{V}}{700\ \Omega} = 10\ \text{mA (unchanged)}$$
+
+**Step 4 – switch open, total current (KCL).**
+
+$$I_{total} = I_1 + I_2 = 10\ \text{mA} + 0\ \text{mA} = 10\ \text{mA}$$
+
+**Step 5 – switch open, equivalent resistance and power.** Only R1 is left, so $R_{eq} = 700\ \Omega$ (it was 281.2 Ω). Check: $I_{total} = \frac{7\ \text{V}}{700\ \Omega} = 10$ mA ✅
+
+$$P_s = V_s \cdot I_{total} = 9\ \text{V} \cdot 10\ \text{mA} = 90\ \text{mW} \quad \text{(it was 224 mW)}$$
+
+### Theory vs. simulation
+
+| | Switch closed: theory | Switch closed: Falstad | Switch open: theory | Switch open: Falstad |
+|---|---|---|---|---|
+| I1 (LED1) | 10 mA | 10.304 mA | 10 mA | 10.304 mA |
+| I2 (LED2) | 14.89 mA | 15.265 mA | 0 mA | 0 mA |
+| I_total | 24.89 mA | 25.569 mA | 10 mA | 10.304 mA |
+| R_eq | 281.2 Ω | – | 700 Ω | – |
+| P_source | 224 mW | 230.121 mW | 90 mW | – |
+
+With the switch open, the simulated source current (10.304 mA) is exactly the LED1 current, as KCL predicts when only one path is left. The small difference from 10 mA has the same cause as in Exercise 2: the simulated LED drops 1.787 V instead of 2 V.
+
+### Conclusion
+
+Opening the switch turns off only LED2. LED1 keeps exactly the same current (10.304 mA in Falstad, before and after), because its branch is still connected directly across the 9 V source: the branches of a parallel circuit work independently. Only the total current changes (KCL): it drops from 24.89 mA to 10 mA, because one path for the current has been removed.
+
+In a series circuit (Exercise 1) this would be different: there is only one path, so opening a switch anywhere would stop the current everywhere and every component would turn off. (This is why the lights in a house are wired in parallel.)
 
 ---
 
