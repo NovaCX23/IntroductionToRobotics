@@ -1,0 +1,9 @@
+# Windows system files
+desktop.ini
+Thumbs.db
+
+# Raw screenshots stay local; the ones used in READMEs are renamed into images/
+Screenshot*.png
+
+# Course handouts (not my work)
+Homework (up to #2).pdf

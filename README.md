@@ -8,8 +8,8 @@ Each homework is in its own folder and has its own README. Every README describe
 
 | # | Topic | Folder | Status |
 |---|-------|--------|--------|
-| 1 | Lab group registration (submitted on Teams) | - | Done |
-| 2 | Basic Electrical Circuits (Falstad simulations) | [Homework 2](./Homework%202/) | In progress |
+| 1 | Lab group registration (submitted on Teams) | - | ✅ Done |
+| 2 | Basic Electrical Circuits (Falstad simulations: series, parallel and RC circuits) | [Homework 2](./Homework%202/) | ✅ Done |
 | 3 | - | [Homework 3](./Homework%203/) | Not assigned yet |
 | 4 | - | [Homework 4](./Homework%204/) | Not assigned yet |
 | 5 | - | [Homework 5](./Homework%205/) | Not assigned yet |
@@ -20,6 +20,18 @@ Each homework is in its own folder and has its own README. Every README describe
 | 10 | - | [Homework 10](./Homework%2010/) | Not assigned yet |
 | 11 | - | [Homework 11](./Homework%2011/) | Not assigned yet |
 | 12 | - | [Homework 12](./Homework%2012/) | Not assigned yet |
+
+## Repository structure
+
+Every homework folder follows the same layout:
+
+```
+Homework N/
+├── README.md        description, calculations, results and theory vs. practice
+├── *.txt / *.ino    simulation exports or source code
+├── images/          screenshots used in the README
+└── *.pdf            handwritten calculations (when there are any)
+```
 
 ## Tools used
 
