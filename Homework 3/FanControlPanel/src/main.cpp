@@ -41,8 +41,9 @@ const int mediumLevelMaxValue = 2730;
 FanLevel fanLevel = LOW_SPEED;
 FanLevel previousFanLevel = LOW_SPEED;   // used to detect entering HIGH_SPEED
 
-// Red is much brighter than green at 3.3 V, so yellow needs less red (tune by eye)
-const int yellowRedValue = 60;
+// Yellow = red + green; tuned by eye (red alone was not enough, so green is dimmed)
+const int yellowRedValue = 255;
+const int yellowGreenValue = 120;
 
 /*
   Sound notification. tone() conflicted with analogWrite() (both use the
@@ -112,7 +113,7 @@ void updateStatusColor() {
     setColor(0, 0, pwmMaxValue);                  // blue
   } else if (potValue <= mediumLevelMaxValue) {
     fanLevel = MEDIUM_SPEED;
-    setColor(yellowRedValue, pwmMaxValue, 0);     // yellow
+    setColor(yellowRedValue, yellowGreenValue, 0); // yellow
   } else {
     fanLevel = HIGH_SPEED;
     setColor(pwmMaxValue, 0, 0);                  // red

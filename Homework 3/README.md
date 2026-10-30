@@ -11,7 +11,7 @@ In this homework I built a simplified **ventilation control panel** on an ESP32.
 | Outputs | External red LED ("fan"), RGB LED (status), passive buzzer (alert), built-in LED (heartbeat) |
 | Key concepts | PWM (`analogWrite`), 12-bit ADC (`analogRead`), `map()`, RGB LED, edge detection, non-blocking timing with `millis()` / `micros()` |
 | Code | [`FanControlPanel/src/main.cpp`](FanControlPanel/src/main.cpp) |
-| Demo video | [▶ YouTube](https://youtube.com/shorts/uGdo7wTnAqU) |
+| Demo video | [▶ YouTube](https://youtube.com/shorts/8dTgRdgKis0) |
 
 ## Contents
 
@@ -38,7 +38,7 @@ In this homework I built a simplified **ventilation control panel** on an ESP32.
 | [`images/calculations/`](images/calculations/) | My handwritten calculations |
 | [`images/serial-monitor/`](images/serial-monitor/) | Screenshots of the Serial Monitor output |
 | [`images/lab-references/`](images/lab-references/) | Screenshots of the Laboratory 2 sections my code builds on |
-| [`media/`](media/) | Demo video (the video itself is on [YouTube](https://youtube.com/shorts/uGdo7wTnAqU)) |
+| [`media/`](media/) | Demo video (the video itself is on [YouTube](https://youtube.com/shorts/8dTgRdgKis0)) |
 
 ---
 
@@ -100,7 +100,7 @@ The same 220 Ω resistor is used on each colour.
 | Red | ≈ 2.0 V | $(3.3 - 2.0) / 220 = 5.91$ mA |
 | Green, blue | ≈ 3.0–3.2 V (I used 3.1 V) | $(3.3 - 3.1) / 220 = 0.91$ mA |
 
-**Conclusion:** at 3.3 V green and blue get about **6.5× less current** than red, so they look much dimmer. That is why yellow (red + green) uses a reduced red value in the code (`yellowRedValue = 60` instead of 255, tuned by eye). With equal values it looked orange/red.
+**Conclusion:** at 3.3 V green and blue get about **6.5× less current** than red. Current alone does not decide how bright a colour looks, so the yellow mix (red + green) was tuned by eye: the final code uses full red and dimmed green (`yellowRedValue = 255`, `yellowGreenValue = 120`).
 
 > [!NOTE]
 > **Why one resistor per colour, not one shared resistor on the common leg?** After a shared resistor the three colours would be in parallel, so they would all get the same voltage. Red has the lowest $V_F$, so it would hold that voltage at about 2 V and take almost all the current. Green and blue would barely light, and the brightness would change depending on how many colours are on.
@@ -223,16 +223,16 @@ The code follows the course [Arduino style guide](https://github.com/Irikos/ardu
 - **Hardware first.** Before writing the final program I verified the hardware with a small diagnostic sketch that tested each output separately.
 - **`tone()` did not work together with `analogWrite()`.** A standalone test with `tone()` beeped, but in the final program (4 pins on `analogWrite`) the buzzer was silent. On the ESP32 both use the LEDC PWM peripheral, so the conflict was most likely there. **Fix:** generate the square wave in software, toggling the buzzer pin every half period with `micros()`. It is the same non-blocking pattern as the heartbeat, only in microseconds.
 - **Red and blue were swapped on the RGB LED.** A test sketch cycling red → green → blue showed the wrong order. I moved the **wires**, not the constants, because the assignment fixes R = `GPIO25` and B = `GPIO27`.
-- **Yellow looked orange.** Red is much brighter than green at 3.3 V (see [calculation 2](#2-rgb-led-at-33-v)), so I reduced the red component of yellow to 60.
+- **Getting a real yellow.** Based on [calculation 2](#2-rgb-led-at-33-v) I first reduced the red component of yellow to 60, but then red was not strong enough and the colour did not look yellow. Tuning by eye, I ended up with full red (255) and green reduced to 120.
 
 ## Theory vs. practice
 
 | Test | Expected | Observed |
 |---|---|---|
-| ADC with the knob at minimum | ≈ 0 | <!-- TODO: observed value --> |
-| ADC with the knob at maximum | ≈ 4095 | <!-- TODO: observed value --> |
+| ADC with the knob at minimum | ≈ 0 | 0 (PWM 0) |
+| ADC with the knob at maximum | ≈ 4095 | 4095 (PWM 255) |
 | ADC with the knob in the middle | ≈ 2048 (may differ, the potentiometer is not perfectly linear) | <!-- TODO: observed value --> |
-| ADC noise with the knob still | small fluctuations | <!-- TODO: observed range, e.g. ±N --> |
+| ADC noise with the knob still | small fluctuations | 1647 – 1671 around 1664 (PWM 102 – 104) |
 | RGB colour per level | blue / yellow / red | <!-- TODO: observed --> |
 | Beep when entering red | one single beep | <!-- TODO: observed --> |
 | Heartbeat while turning the knob | keeps blinking at 1 Hz | <!-- TODO: observed --> |
@@ -245,7 +245,7 @@ Near the 2730 threshold the ADC noise can push the value back and forth across t
 
 ### Video
 
-[![Demo video on YouTube](https://img.youtube.com/vi/uGdo7wTnAqU/hqdefault.jpg)](https://youtube.com/shorts/uGdo7wTnAqU)
+[![Demo video on YouTube](https://img.youtube.com/vi/8dTgRdgKis0/hqdefault.jpg)](https://youtube.com/shorts/8dTgRdgKis0)
 
 <!-- TODO: watch the video once and confirm it really shows everything listed below -->
 The video shows the whole circuit, the knob changing the LED brightness, the RGB LED going blue → yellow → red, the heartbeat still blinking, the beep when entering red, and the Serial Monitor output.
@@ -258,7 +258,9 @@ The video shows the whole circuit, the knob changing the LED brightness, the RGB
 
 ### Serial Monitor
 
-<!-- TODO: add Serial Monitor screenshot, e.g. ![Serial Monitor output](images/serial-monitor/serial-monitor.webp) -->
+Turning the knob from minimum to maximum: the level goes LOW (blue) → MEDIUM (yellow) → HIGH (red), and the PWM value follows the ADC reading.
+
+![Serial Monitor output while turning the knob from minimum to maximum](images/serial-monitor/serial-monitor.webp)
 
 ## How to build and upload
 
