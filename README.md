@@ -10,7 +10,7 @@ Each homework is in its own folder and has its own README. Every README describe
 |---|-------|--------|--------|
 | 1 | Lab group registration (submitted on Teams) | - | ✅ Done |
 | 2 | Basic Electrical Circuits (Falstad simulations: series, parallel and RC circuits) | [Homework 2](./Homework%202/) | ✅ Done |
-| 3 | - | [Homework 3](./Homework%203/) | Not assigned yet |
+| 3 | Fan Control and Status Panel (ESP32: PWM, ADC, RGB LED, buzzer, non-blocking timing) | [Homework 3](./Homework%203/) | ✅ Done |
 | 4 | - | [Homework 4](./Homework%204/) | Not assigned yet |
 | 5 | - | [Homework 5](./Homework%205/) | Not assigned yet |
 | 6 | - | [Homework 6](./Homework%206/) | Not assigned yet |
@@ -28,14 +28,19 @@ Every homework folder follows the same layout:
 ```
 Homework N/
 ├── README.md        description, calculations, results and theory vs. practice
-├── *.txt / *.ino    simulation exports or source code
-├── images/          screenshots used in the README
+├── *.txt            simulation exports (simulation homeworks)
+├── <Project>/       PlatformIO project (hardware homeworks): platformio.ini, src/
+├── images/          photos and screenshots used in the README
 └── *.pdf            handwritten calculations (when there are any)
 ```
+
+Hardware homeworks contain a PlatformIO project (`platformio.ini` + `src/main.cpp`) instead of an Arduino `*.ino` sketch.
 
 ## Tools used
 
 - [Falstad Circuit Simulator](https://www.falstad.com/circuit/)
+- [PlatformIO](https://platformio.org/) (VS Code extension)
+- ESP32 (ESP32-WROOM DevKit) with the Arduino framework
 
 ## Acknowledgements
 

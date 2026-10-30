@@ -7,3 +7,7 @@ Screenshot*.png
 
 # Course handouts (not my work)
 Homework (up to #2).pdf
+
+# PlatformIO build output and editor settings
+.pio/
+.vscode/
