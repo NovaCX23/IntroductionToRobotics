@@ -59,7 +59,7 @@ In this homework I built a simplified **ventilation control panel** on an ESP32.
 
 ## Schematic
 
-![Hand-drawn schematic of the circuit](images/schematic/schematic.webp)
+<img src="images/schematic/schematic.webp" width="450" alt="Hand-drawn schematic of the circuit">
 
 ---
 
@@ -79,7 +79,7 @@ In this homework I built a simplified **ventilation control panel** on an ESP32.
 
 My handwritten calculations:
 
-![Handwritten calculations](images/calculations/handwritten-calculations.webp)
+<img src="images/calculations/handwritten-calculations.webp" width="450" alt="Handwritten calculations">
 
 ### 1. LED resistor
 
@@ -245,22 +245,30 @@ Near the 2730 threshold the ADC noise can push the value back and forth across t
 
 ### Video
 
-[![Demo video on YouTube](https://img.youtube.com/vi/8dTgRdgKis0/hqdefault.jpg)](https://youtube.com/shorts/8dTgRdgKis0)
+<a href="https://youtube.com/shorts/8dTgRdgKis0"><img src="https://img.youtube.com/vi/8dTgRdgKis0/hqdefault.jpg" width="450" alt="Demo video on YouTube"></a>
 
 <!-- TODO: watch the video once and confirm it really shows everything listed below -->
 The video shows the whole circuit, the knob changing the LED brightness, the RGB LED going blue → yellow → red, the heartbeat still blinking, the beep when entering red, and the Serial Monitor output.
 
 ### Circuit
 
-| Low speed (blue) | Medium speed (yellow) | High speed (red) |
-|---|---|---|
-| ![Circuit at low speed, RGB LED blue](images/circuit/circuit-low-blue.webp) | ![Circuit at medium speed, RGB LED yellow](images/circuit/circuit-medium-yellow.webp) | ![Circuit at high speed, RGB LED red](images/circuit/circuit-high-red.webp) |
+**Low speed (blue)**
+
+<img src="images/circuit/circuit-low-blue.webp" width="450" alt="Circuit at low speed, RGB LED blue">
+
+**Medium speed (yellow)**
+
+<img src="images/circuit/circuit-medium-yellow.webp" width="450" alt="Circuit at medium speed, RGB LED yellow">
+
+**High speed (red)**
+
+<img src="images/circuit/circuit-high-red.webp" width="450" alt="Circuit at high speed, RGB LED red">
 
 ### Serial Monitor
 
 Turning the knob from minimum to maximum: the level goes LOW (blue) → MEDIUM (yellow) → HIGH (red), and the PWM value follows the ADC reading.
 
-![Serial Monitor output while turning the knob from minimum to maximum](images/serial-monitor/serial-monitor.webp)
+<img src="images/serial-monitor/serial-monitor.webp" width="450" alt="Serial Monitor output while turning the knob from minimum to maximum">
 
 ## How to build and upload
 

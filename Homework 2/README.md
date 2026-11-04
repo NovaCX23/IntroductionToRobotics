@@ -28,11 +28,11 @@ My handwritten calculations and schematics are in [`handwritten_calculations.pdf
 
 | File | Content |
 |---|---|
-| [`series_circuit.txt`](series_circuit.txt) | Exercise 1 – Falstad export |
-| [`parallel_circuit.txt`](parallel_circuit.txt) | Exercise 2 – Falstad export |
-| [`rc_series.txt`](rc_series.txt) | Exercise 3 – RC circuit, capacitors in series |
-| [`rc_parallel.txt`](rc_parallel.txt) | Exercise 3 – RC circuit, capacitors in parallel |
-| [`parallel_circuit_switch.txt`](parallel_circuit_switch.txt) | Bonus – parallel circuit with a switch in branch 2 |
+| [`circuits/series_circuit.txt`](circuits/series_circuit.txt) | Exercise 1 – Falstad export |
+| [`circuits/parallel_circuit.txt`](circuits/parallel_circuit.txt) | Exercise 2 – Falstad export |
+| [`circuits/rc_series.txt`](circuits/rc_series.txt) | Exercise 3 – RC circuit, capacitors in series |
+| [`circuits/rc_parallel.txt`](circuits/rc_parallel.txt) | Exercise 3 – RC circuit, capacitors in parallel |
+| [`circuits/parallel_circuit_switch.txt`](circuits/parallel_circuit_switch.txt) | Bonus – parallel circuit with a switch in branch 2 |
 | [`handwritten_calculations.pdf`](handwritten_calculations.pdf) | All calculations and schematics, done by hand |
 | [`images/`](images/) | Screenshots of each circuit running in Falstad |
 
@@ -58,7 +58,7 @@ My handwritten calculations and schematics are in [`handwritten_calculations.pdf
 
 A single loop: 5 V source → R1 → R2 → red LED → back to the source. Since there is only one path, the same current flows through every component, and the source voltage is shared between the resistors and the LED.
 
-![Series circuit running in Falstad](images/series.png)
+<img src="images/series.png" width="450" alt="Series circuit running in Falstad">
 
 ### Design
 
@@ -112,11 +112,11 @@ KVL also holds in the simulation: $1.070 + 2.139 + 1.791 = 5.000$ V ✅
 
 Two branches connected across the 9 V source, each with its own resistor and red LED. In parallel every branch gets the full source voltage (9 V), each branch has its own current, and the branch currents add up to the total current drawn from the source (KCL). KVL still applies inside each branch: $V_s = V_R + V_{LED}$.
 
-![Parallel circuit, total current from the source](images/parallel_source.png)
+<img src="images/parallel_source.png" width="450" alt="Parallel circuit, total current from the source">
 
 | LED1 (700 Ω branch) | LED2 (470 Ω branch) |
 |---|---|
-| ![LED1 measurement](images/parallel_led1.png) | ![LED2 measurement](images/parallel_led2.png) |
+| <img src="images/parallel_led1.png" width="450" alt="LED1 measurement"> | <img src="images/parallel_led2.png" width="450" alt="LED2 measurement"> |
 
 ### Design
 
@@ -188,7 +188,7 @@ I built the same circuit twice, with the two capacitors **in series** and **in p
 
 | Capacitors in series | Capacitors in parallel |
 |---|---|
-| ![RC circuit, capacitors in series](images/rc_series.png) | ![RC circuit, capacitors in parallel](images/rc_parallel.png) |
+| <img src="images/rc_series.png" width="450" alt="RC circuit, capacitors in series"> | <img src="images/rc_parallel.png" width="450" alt="RC circuit, capacitors in parallel"> |
 
 ### Component values
 
@@ -277,10 +277,10 @@ The parallel times are about 4× the series times in both theory and simulation,
 
 | Switch closed | Switch open |
 |---|---|
-| ![Switch closed, LED1 measurement](images/bonus_closed_led1.png) | ![Switch open, LED1 measurement](images/bonus_open_led1.png) |
+| <img src="images/bonus_closed_led1.png" width="450" alt="Switch closed, LED1 measurement"> | <img src="images/bonus_open_led1.png" width="450" alt="Switch open, LED1 measurement"> |
 | Both LEDs on, LED1 carries **10.304 mA** | LED2 off, LED1 still carries **10.304 mA** |
 
-![Switch open, LED2 measurement](images/bonus_open_led2.png)
+<img src="images/bonus_open_led2.png" width="450" alt="Switch open, LED2 measurement">
 
 *Switch open: LED2 has I = 0 A, V = 0 V, so it is completely off.*
 

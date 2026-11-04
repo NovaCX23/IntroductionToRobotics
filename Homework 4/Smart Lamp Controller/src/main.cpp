@@ -53,8 +53,8 @@ enum LampMode
   MODE_BREATHING  // bonus, only reachable when extraModesEnabled is true
 };
 
-const int baseModeCount = 4;      // mandatory: OFF, DIM, FULL, BLINK
-const int extendedModeCount = 5;  // + BREATHING (bonus)
+const int baseModeCount = 4;      
+const int extendedModeCount = 5;  
 
 // Bonus switch: false = only the mandatory 4 modes, true = extra modes too
 const bool extraModesEnabled = true;
@@ -121,7 +121,7 @@ void setup()
   lastDebounceTime = millis();
   lastHeartbeatToggleTime = millis();
 
-  // FALLING = HIGH -> LOW = possible button press (active LOW)
+  // FALLING = HIGH -> LOW = possible button press
   attachInterrupt(digitalPinToInterrupt(buttonPin), handleButtonInterrupt, FALLING);
 }
 
@@ -133,7 +133,7 @@ void loop()
   updateHeartbeat(currentTime);
 }
 
-// ISR: keep it short, record the event and count it
+// ISR: record the event and count it
 void IRAM_ATTR handleButtonInterrupt()
 {
   buttonEvent = true;
@@ -200,14 +200,12 @@ void updateButton(unsigned long currentTime)
   }
 }
 
-// Called once when a debounced press is confirmed
 void onConfirmedPress(unsigned long currentTime)
 {
   pressStartTime = currentTime;
   longPressHandled = false;
 }
 
-// Called once when a debounced release is confirmed: short press -> next mode
 void onConfirmedRelease(unsigned long currentTime)
 {
   buttonPushCounter++;

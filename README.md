@@ -11,7 +11,7 @@ Each homework is in its own folder and has its own README. Every README describe
 | 1 | Lab group registration (submitted on Teams) | - | ✅ Done |
 | 2 | Basic Electrical Circuits (Falstad simulations: series, parallel and RC circuits) | [Homework 2](./Homework%202/) | ✅ Done |
 | 3 | Fan Control and Status Panel (ESP32: PWM, ADC, RGB LED, buzzer, non-blocking timing) | [Homework 3](./Homework%203/) | ✅ Done |
-| 4 | - | [Homework 4](./Homework%204/) | Not assigned yet |
+| 4 | Smart Lamp Controller (ESP32: pushbutton modes, debouncing, short/long press, interrupts, PWM) | [Homework 4](./Homework%204/) | ✅ Done |
 | 5 | - | [Homework 5](./Homework%205/) | Not assigned yet |
 | 6 | - | [Homework 6](./Homework%206/) | Not assigned yet |
 | 7 | - | [Homework 7](./Homework%207/) | Not assigned yet |
