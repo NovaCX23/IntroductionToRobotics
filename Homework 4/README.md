@@ -330,6 +330,5 @@ I used **Claude (Anthropic)** as a tutor throughout this homework. It helped me 
 
 The debouncing and interrupt code are based on the **Laboratory 3** examples (sections 3.4 and 4.4).
 
-I understand all of the code and can explain or change any part of it.
 
 [⬅ Back to all homeworks](../README.md)
