@@ -13,6 +13,12 @@
     - Joystick button: stop the countdown
     - Joystick DOWN:   reset the game (after a stop, or to abort a round)
 
+  Bonuses (each one can be switched off with its constant below):
+    - Time display (timeDisplayEnabled): the counter is shown as seconds
+      with a decimal point, 9.999 s -> 0.000 s (1 unit = 1 ms).
+    - Random targets (randomTargetEnabled): a new playable target each round.
+    - High score: the best (smallest) error since power-on is remembered.
+
   Circuit:
     - 74HC595: VCC -> 3V3, GND -> GND, MR -> 3V3, OE -> GND
                DS -> GPIO23, SHCP -> GPIO18, STCP -> GPIO22
@@ -50,6 +56,7 @@ const uint8_t DIGIT_OFF = COMMON_ANODE ? LOW : HIGH;
 
 // Segment order: A B C D E F G DP (bit 7 = A ... bit 0 = DP)
 const uint8_t blankPattern = 0b00000000;
+const uint8_t decimalPointMask = 0b00000001;
 
 // Digit encodings 0-9
 const uint8_t byteEncodings[10] = {
@@ -73,6 +80,18 @@ const int maxDisplayNumber = 9999;
 const int defaultTargetNumber = 5000;
 const int countdownStartValue = 9999;
 const unsigned long countdownStepMs = 1;  // time for the counter to drop by 1
+
+// Bonus switches: false = only the mandatory behaviour
+const bool timeDisplayEnabled = true;
+const bool randomTargetEnabled = true;
+
+// Bonus: time display, value in ms shown as s.mmm (decimal point after the first digit)
+const uint8_t secondsDigitPosition = 0;   // D1 holds the seconds, D2-D4 the milliseconds
+const int millisecondsPerSecond = 1000;
+
+// Bonus: random targets between 2000 and 6999 -> 3.00 s to 8.00 s from 9999 at 1 unit/ms
+const int randomTargetMin = 2000;
+const int randomTargetMax = 6999;
 
 // Joystick calibration (measured with the diagnostic program)
 const int joystickXCenter = 1950;
@@ -126,6 +145,9 @@ int targetNumber = defaultTargetNumber;
 int counterValue = countdownStartValue;   // value currently shown during the countdown
 unsigned long countdownStartTime = 0;
 
+// High score (bonus): best error since power-on, -1 = no round played yet
+int bestError = -1;
+
 // Function prototypes
 void writeReg(uint8_t logicalPattern);
 void turnOffAllDigits();
@@ -141,6 +163,8 @@ void startCountdown(unsigned long currentTime);
 void stopCountdown();
 void resetGame();
 void printControls();
+void printGameValue(int value);
+void updateHighScore(int error);
 
 void setup()
 {
@@ -232,17 +256,21 @@ void refreshDisplay(unsigned long currentTime)
   Digits are taken from the right (units) to the left; once nothing is
   left of the number, the remaining positions are leading zeros and are
   blanked. The units digit is always shown, so 0 is displayed as "0".
+  Time display (bonus): every digit from the seconds digit to the right
+  is always shown (0.042, not .042), and the decimal point is added to
+  the seconds digit with a bit mask (OR keeps the other segments).
 */
 void setDisplayNumber(int number)
 {
   int remaining = constrain(number, 0, maxDisplayNumber);
 
+  // Leftmost position that must always be shown
+  int firstAlwaysShownPosition = timeDisplayEnabled ? secondsDigitPosition : displayCount - 1;
+
   // From the rightmost position (units) to the leftmost (thousands)
   for (int position = displayCount - 1; position >= 0; position--)
   {
-    bool isUnitsPosition = (position == displayCount - 1);
-
-    if (remaining == 0 && !isUnitsPosition)
+    if (remaining == 0 && position < firstAlwaysShownPosition)
     {
       displayBuffer[position] = blankPattern;
     }
@@ -252,6 +280,12 @@ void setDisplayNumber(int number)
     }
 
     remaining = remaining / numberBase;
+  }
+
+  // Bonus: light the decimal point after the seconds digit
+  if (timeDisplayEnabled)
+  {
+    displayBuffer[secondsDigitPosition] |= decimalPointMask;
   }
 }
 
@@ -415,7 +449,8 @@ void startCountdown(unsigned long currentTime)
   setDisplayNumber(counterValue);
 
   Serial.print("Countdown started from ");
-  Serial.println(countdownStartValue);
+  printGameValue(countdownStartValue);
+  Serial.println();
 }
 
 // Freeze the display on the current value and print the result
@@ -425,11 +460,14 @@ void stopCountdown()
   int error = abs(counterValue - targetNumber);
 
   Serial.print("Target: ");
-  Serial.print(targetNumber);
+  printGameValue(targetNumber);
   Serial.print(" | Stopped at: ");
-  Serial.print(counterValue);
+  printGameValue(counterValue);
   Serial.print(" | Error: ");
-  Serial.println(error);
+  printGameValue(error);
+  Serial.println();
+
+  updateHighScore(error);
   Serial.println("Push DOWN to play again.");
 }
 
@@ -438,10 +476,18 @@ void resetGame()
 {
   gameState = STATE_SHOW_TARGET;
   counterValue = countdownStartValue;
+
+  /*
+    Bonus: a new random (but still playable) target every round.
+  */
+  if (randomTargetEnabled)
+  {
+    targetNumber = random(randomTargetMin, randomTargetMax + 1);
+  }
   setDisplayNumber(targetNumber);
 
   Serial.print("Target: ");
-  Serial.print(targetNumber);
+  printGameValue(targetNumber);
   Serial.println(" - push UP to start.");
 }
 
@@ -449,4 +495,46 @@ void resetGame()
 void printControls()
 {
   Serial.println("Controls: UP = start | button = stop | DOWN = reset");
+}
+
+// Print a game value: plain number, or seconds (s.mmm) when the time display is on
+void printGameValue(int value)
+{
+  if (!timeDisplayEnabled)
+  {
+    Serial.print(value);
+    return;
+  }
+
+  int seconds = value / millisecondsPerSecond;
+  int milliseconds = value % millisecondsPerSecond;
+
+  Serial.print(seconds);
+  Serial.print(".");
+
+  // Pad the milliseconds to 3 digits: 42 -> "042"
+  if (milliseconds < 100)
+  {
+    Serial.print("0");
+  }
+  if (milliseconds < 10)
+  {
+    Serial.print("0");
+  }
+  Serial.print(milliseconds);
+  Serial.print(" s");
+}
+
+// Bonus: remember the smallest error since power-on and announce a new record
+void updateHighScore(int error)
+{
+  if (bestError < 0 || error < bestError)
+  {
+    bestError = error;
+    Serial.print("New best result! ");
+  }
+
+  Serial.print("Best error so far: ");
+  printGameValue(bestError);
+  Serial.println();
 }

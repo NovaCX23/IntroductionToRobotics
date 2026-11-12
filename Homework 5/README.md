@@ -6,6 +6,8 @@ A number races down from 9999. Can you stop it right on the target?
 
 In this homework I built a small **reaction game** with an ESP32, a **74HC595 shift register**, a **4-digit 7-segment display** and an **analog joystick**. The display shows a target number, **5000**. When I push the joystick **UP**, a counter starts falling from **9999**, one unit every millisecond. I press the joystick **button** when I think it's as close to 5000 as possible. The display freezes on the number I stopped at, and the Serial Monitor tells me how far off I was. Pushing **DOWN** brings the target back for another round. If nobody stops the counter, it stops on its own at **0**.
 
+The submitted version also has three **bonuses**. The counter is shown as **seconds with a decimal point** (9.999 s → 0.000 s), every round gets a **new random target**, and the game remembers the **best result** since power-on. Each one is behind a switch in the code, so the plain game (target 5000, whole numbers) is one change away.
+
 The 7-segment display is driven through the shift register, so the 8 segment lines need only 3 ESP32 pins. The four digits share those lines and are lit one after another so fast that all four look like they're on at the same time. Every segment pattern is a single byte, built and sent bit by bit with bit operations. No `delay()` is used anywhere, so the display never stops refreshing.
 
 | At a glance | |
@@ -13,15 +15,22 @@ The 7-segment display is driven through the shift register, so the 8 segment lin
 | Board / framework | ESP32 DevKit (ESP32-WROOM-32), Arduino framework, PlatformIO |
 | Display | 74HC595 shift register + 4-digit 7-segment display (common cathode) |
 | Input | Analog joystick: VRx on `GPIO34`, VRy on `GPIO35`, button (SW) on `GPIO32` |
-| Key concepts | Shift register, multiplexing, bit masks (`uint8_t`, `>>`, `&`, `~`), leading-zero blanking, dead zone + hysteresis, edge detection, debouncing, state machine, non-blocking timing with `millis()` |
+| Key concepts | Shift register, multiplexing, bit masks (`uint8_t`, `>>`, `&`, `\|`, `~`), leading-zero blanking, dead zone + hysteresis, edge detection, debouncing, state machine, non-blocking timing with `millis()` |
 | Code | [`Stop the Counter/src/main.cpp`](Stop%20the%20Counter/src/main.cpp) |
-| Demo video | [▶ YouTube](https://youtube.com/shorts/pVg0Hy-p8P0) |
+| Demo videos | [▶ Mandatory game](https://youtube.com/shorts/pVg0Hy-p8P0) · [▶ Bonuses](https://youtube.com/shorts/7Xgt8_3jGXI) |
 
 ## Bonuses
 
 | Bonus | Status | How to enable / where in code |
 |---|---|---|
-| No bonuses in this version yet (coming in a separate update) | – | – |
+| Time display with a decimal point (9.999 s → 0.000 s) | ✅ Done | `timeDisplayEnabled = true` · `setDisplayNumber()` (`decimalPointMask`, `\|=`), `printGameValue()` |
+| Random targets (a new playable target every round) | ✅ Done | `randomTargetEnabled = true` · `resetGame()` (`random(randomTargetMin, randomTargetMax + 1)`) |
+| High score (best error since power-on) | ✅ Done | always on · `updateHighScore()` (`bestError`) |
+
+Details are in [Bonus features](#bonus-features).
+
+> [!NOTE]
+> The code is submitted with `timeDisplayEnabled = true` and `randomTargetEnabled = true`, as in the [bonus video](#bonus-version). Set both to `false` to get the plain mandatory game: target 5000, whole numbers, leading zeros blanked, as in the [first video](#mandatory-version).
 
 ## Contents
 
@@ -32,6 +41,7 @@ The 7-segment display is driven through the shift register, so the 8 segment lin
 - [Hardware and wiring](#hardware-and-wiring)
 - [Calculations](#calculations)
 - [How it works](#how-it-works)
+- [Bonus features](#bonus-features)
 - [Requirements checklist](#requirements-checklist)
 - [Key design decisions](#key-design-decisions)
 - [Theory vs. practice](#theory-vs-practice)
@@ -46,15 +56,17 @@ The 7-segment display is driven through the shift register, so the 8 segment lin
 | File / folder | Content |
 |---|---|
 | [`Stop the Counter/`](Stop%20the%20Counter/) | PlatformIO project (`platformio.ini`, `src/main.cpp`) |
-| [`images/`](images/) | Circuit photos, the Laboratory 4 wiring diagram, Serial Monitor screenshot |
+| [`images/`](images/) | Circuit photos, the Laboratory 4 wiring diagram, Serial Monitor screenshots (mandatory game and bonuses) |
 
 ---
 
 ## Demo video
 
-<a href="https://youtube.com/shorts/pVg0Hy-p8P0"><img src="https://img.youtube.com/vi/pVg0Hy-p8P0/hqdefault.jpg" width="450" alt="Demo video on YouTube"></a>
+### Mandatory version
 
-The Serial Monitor is visible in the video the whole time. In order, you can see:
+<a href="https://youtube.com/shorts/pVg0Hy-p8P0"><img src="https://img.youtube.com/vi/pVg0Hy-p8P0/hqdefault.jpg" width="450" alt="Demo video of the mandatory game on YouTube"></a>
+
+I recorded this before adding the bonuses. It behaves the same as the current code with both bonus switches set to `false`. The Serial Monitor is visible in the video the whole time. In order, you can see:
 
 1. **The target.** 5000 is on the display before anything starts.
 2. **Start.** Pushing the joystick UP starts the countdown from 9999.
@@ -64,6 +76,38 @@ The Serial Monitor is visible in the video the whole time. In order, you can see
 6. **A second round.** Same thing again, with a different result.
 7. **Leading zeros.** I let a round run all the way down: 999 → 99 → 9 → 0, with no leading zeros, and the Serial Monitor prints "Time's up!".
 8. **Reset again.** DOWN brings back the target.
+
+### Bonus version
+
+<a href="https://youtube.com/shorts/7Xgt8_3jGXI"><img src="https://img.youtube.com/vi/7Xgt8_3jGXI/hqdefault.jpg" width="450" alt="Demo video of the bonus features on YouTube"></a>
+
+The submitted code, with all three bonuses on. Everything is shown in seconds with a decimal point. In order, you can see:
+
+1. **A random target.** The display shows `4.998`.
+2. **First round.** UP starts the countdown from `9.999`. I stopped at `4.710`, an error of 0.288 s, and the Serial Monitor prints **New best result!**
+3. **A new random target.** DOWN resets, and the target is now `5.585`.
+4. **Second round.** I stopped at `5.085`, an error of 0.500 s. That's worse, so the best stays 0.288 s.
+5. **Aborting a round.** With target `5.029`, I started the countdown and pushed DOWN in the middle of it. The round was cancelled and a new target, `6.486`, appeared.
+
+The Serial Monitor log from the video:
+
+```
+Stop the Counter!
+Controls: UP = start | button = stop | DOWN = reset
+Target: 4.998 s - push UP to start.
+Countdown started from 9.999 s
+Target: 4.998 s | Stopped at: 4.710 s | Error: 0.288 s
+New best result! Best error so far: 0.288 s
+Push DOWN to play again.
+Target: 5.585 s - push UP to start.
+Countdown started from 9.999 s
+Target: 5.585 s | Stopped at: 5.085 s | Error: 0.500 s
+Best error so far: 0.288 s
+Push DOWN to play again.
+Target: 5.029 s - push UP to start.
+Countdown started from 9.999 s
+Target: 6.486 s - push UP to start.
+```
 
 ---
 
@@ -190,6 +234,12 @@ $$t_{target} = (9999 - 5000) \cdot 1\ \text{ms} = 4999\ \text{ms} \approx 5.00\ 
 
 About 5 seconds to reach the target, inside the 3–10 s the game should take to be playable.
 
+**Bonus – random targets.** The target $T$ is picked between `randomTargetMin = 2000` and `randomTargetMax = 6999`, so the time from the start to the target is:
+
+$$t_{target} = (9999 - T) \cdot 1\ \text{ms} \qquad t_{min} = (9999 - 6999) \cdot 1\ \text{ms} = 3000\ \text{ms} = 3.00\ \text{s} \qquad t_{max} = (9999 - 2000) \cdot 1\ \text{ms} = 7999\ \text{ms} \approx 8.00\ \text{s}$$
+
+So every random round stays inside the same 3–10 s range.
+
 ### 6. Joystick thresholds
 
 The ADC is 12-bit (0–4095). I measured the center at about **X = 1950** and **Y = 1925**. A move counts once the stick is **1200** away from the center (`joystickTriggerThreshold`). It counts as centered again only when both axes are closer than **600** (`joystickDeadZone`).
@@ -274,11 +324,11 @@ All digits are switched **off before** the new pattern is written. Otherwise the
 
 ### Leading zeros: `setDisplayNumber()`
 
-Digits are taken from the right with `% 10` (the last digit) and `/ 10` (drop the last digit). Once nothing is left of the number, the remaining positions on the left are leading zeros and get `blankPattern` instead. The **units** position is always drawn, so 0 still shows as "0".
+Digits are taken from the right with `% 10` (the last digit) and `/ 10` (drop the last digit). Once nothing is left of the number, the remaining positions on the left are leading zeros and get `blankPattern` instead. Positions from `firstAlwaysShownPosition` to the right are always drawn. In the plain game that's only the **units** position, so 0 still shows as "0". (With the time display bonus every position is drawn, see [Bonus features](#bonus-features).)
 
-Trace for **42**:
+Trace for **42** (plain game):
 
-| Position (right → left) | `remaining` before | Units position? | Shown | `remaining` after `/ 10` |
+| Position (right → left) | `remaining` before | Always shown? | Shown | `remaining` after `/ 10` |
 |---|---|---|---|---|
 | 3 (D4) | 42 | yes | `42 % 10` = **2** | 4 |
 | 2 (D3) | 4 | no | `4 % 10` = **4** | 0 |
@@ -341,16 +391,73 @@ If these were `unsigned`, stopping at 4813 would give $4813 - 5000$, which **wra
 
 ---
 
+## Bonus features
+
+All three bonuses only add to the game. The controls, the state machine and the countdown stay the same.
+
+### Bonus 1 – Time display with a decimal point
+
+The counter already drops 1 unit per millisecond, so I treat the value as **milliseconds**: 9999 means 9.999 s. D1 shows the seconds and D2–D4 the milliseconds, with the decimal point after D1:
+
+| Value | Plain game | Time display |
+|---|---|---|
+| 9999 | `9999` | `9.999` |
+| 4813 | `4813` | `4.813` |
+| 42 | `42` | `0.042` |
+| 0 | `0` | `0.000` |
+
+The decimal point is the DP segment, **bit 0** of the pattern. It's turned on with a bit mask and **OR**, so the other 7 segments stay exactly as they were:
+
+```cpp
+const uint8_t decimalPointMask = 0b00000001;
+...
+displayBuffer[secondsDigitPosition] |= decimalPointMask;
+```
+
+For example, "4" is `0b01100110`, and `0b01100110 | 0b00000001 = 0b01100111` is "4.": the same segments plus the dot.
+
+**Leading zeros in time mode.** `firstAlwaysShownPosition` becomes 0 (the seconds digit), so all four positions are drawn: 42 ms is `0.042`, not `.042`. There is always exactly **one** digit before the point, so the format never has an unnecessary zero (`9.13` style, never `09.13`).
+
+**Serial Monitor.** `printGameValue()` prints every value (target, stopped value, error, best) as seconds with 3 decimals, padding the milliseconds with zeros: 42 → `0.042 s`.
+
+### Bonus 2 – Random targets
+
+Each time the game resets, `resetGame()` picks a new target:
+
+```cpp
+targetNumber = random(randomTargetMin, randomTargetMax + 1);  // 2000 ... 6999
+```
+
+- `random(min, max)` never returns `max` itself, hence the `+ 1`.
+- The range keeps every round playable: 3.00 s to 8.00 s from the start to the target (see [Calculations](#5-countdown-timing)).
+- No `randomSeed()` is needed. On the ESP32, `random()` uses the chip's hardware random number generator (`esp_random()`) as long as `randomSeed()` is never called, so the targets are different after every power-on.
+
+### Bonus 3 – High score
+
+`bestError` remembers the smallest error since power-on. It starts at `-1`, meaning "no round played yet". After every round, `updateHighScore()` compares the new error with it:
+
+```cpp
+if (bestError < 0 || error < bestError)
+{
+  bestError = error;
+  Serial.print("New best result! ");
+}
+```
+
+Then it always prints `Best error so far: …`. The value lives only in RAM, so it starts over when the board is reset or powered off.
+
+---
+
 ## Requirements checklist
 
 | # | Requirement | Where in the code |
 |---|---|---|
-| 1 | Target number visible at startup | `defaultTargetNumber = 5000`; `setup()` calls `resetGame()`, which shows it |
+| 1 | Target number visible at startup | `defaultTargetNumber = 5000` (random with the bonus); `setup()` calls `resetGame()`, which shows it |
 | 2 | Countdown from a higher value, playable speed, auto-stop at 0 | `startCountdown()`, `updateCountdown()` (`countdownStartValue = 9999`, `countdownStepMs = 1`, stop when `stepsDone >= 9999`) |
 | 3 | Stop, freeze, error = \|stopped − target\| on Serial | `onButtonPressed()` → `stopCountdown()`; the display buffer isn't touched in `STATE_STOPPED` |
 | 4 | Reset/replay; dead zone, edge detection, debouncing | `onJoystickMoved()` → `resetGame()`; `updateJoystick()` (`joystickDeadZone`, `joystickCentered`), `updateButton()` (`debounceDelayMs`) |
-| 5 | No leading zeros, 0 shown as "0" | `setDisplayNumber()` (`blankPattern`, `isUnitsPosition`) |
-| 6 | Bitwise display control, `uint8_t` patterns, no display library | `byteEncodings[]`, `displayBuffer[]`, `writeReg()` (`>>`, `& 0x01`, `~`) |
+| 5 | No leading zeros, 0 shown as "0" | `setDisplayNumber()` (`blankPattern`, `firstAlwaysShownPosition`); in time mode `0.042` has no unnecessary zero |
+| 6 | Bitwise display control, `uint8_t` patterns, no display library | `byteEncodings[]`, `displayBuffer[]`, `writeReg()` (`>>`, `& 0x01`, `~`), decimal point with `\|= decimalPointMask` |
 | 7 | Non-blocking, display always refreshed | `loop()` + `millis()` everywhere, no `delay()`; `refreshDisplay()` runs on every loop |
 | 8 | Video | [Demo video](#demo-video) |
 
@@ -366,6 +473,7 @@ If these were `unsigned`, stopping at 4813 would give $4813 - 5000$, which **wra
 - **DOWN also aborts a running round**, so you don't have to wait 10 seconds after a bad start.
 - **One `currentTime` per loop**, and time comparisons by subtraction (`currentTime - last >= interval`), which keeps working even when `millis()` overflows.
 - **`COMMON_ANODE` switch.** The same code works for both display types: the digit levels and the `~` inversion follow this one constant.
+- **Bonuses behind switches.** `timeDisplayEnabled` and `randomTargetEnabled` turn the bonuses off without touching the mandatory logic, and the game still uses whole numbers internally.
 
 ---
 
@@ -398,9 +506,16 @@ Before writing the game, I ran a separate **diagnostic program**. It lit every s
 
 ## Serial Monitor
 
-Two rounds with their target, stopped value and error, a round that ran down to 0 ("Time's up!") and a reset:
+**Mandatory game.** Two rounds with their target, stopped value and error, a round that ran down to 0 ("Time's up!") and a reset:
 
 <img src="images/serial_monitor_game.png" width="450" alt="Serial Monitor: two rounds with target, stopped value and error, a Time's up round and a reset">
+
+**With the bonuses** (the submitted version). Everything is in seconds:
+- The first round, with target 4.128 s, was aborted with DOWN, which gave a new target, 4.807 s.
+- I stopped that round at 4.625 s (error 0.182 s, **New best result!**).
+- The next target was 3.461 s. I stopped at 3.747 s (error 0.286 s), so the best stayed 0.182 s.
+
+<img src="images/bonus_serial.png" width="450" alt="Serial Monitor with bonuses: random targets in seconds, an aborted round, a new best result of 0.182 s">
 
 ## How to build and upload
 

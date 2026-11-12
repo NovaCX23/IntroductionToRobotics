@@ -12,7 +12,7 @@ Each homework is in its own folder and has its own README. Every README describe
 | 2 | Basic Electrical Circuits (Falstad simulations: series, parallel and RC circuits) | [Homework 2](./Homework%202/) | ✅ Done | Parallel circuit with a switch |
 | 3 | Fan Control and Status Panel (ESP32: PWM, ADC, RGB LED, buzzer, non-blocking timing) | [Homework 3](./Homework%203/) | ✅ Done | – |
 | 4 | Smart Lamp Controller (ESP32: pushbutton modes, debouncing, short/long press, interrupts, PWM) | [Homework 4](./Homework%204/) | ✅ Done | B: BREATHING mode · C: raw interrupts vs. accepted presses |
-| 5 | Stop the Counter! (ESP32: 74HC595 shift register, 4-digit 7-segment multiplexing, joystick, bit masks, non-blocking state machine) | [Homework 5](./Homework%205/) | ✅ Done | – (coming) |
+| 5 | Stop the Counter! (ESP32: 74HC595 shift register, 4-digit 7-segment multiplexing, joystick, bit masks, non-blocking state machine) | [Homework 5](./Homework%205/) | ✅ Done | Time display with decimal point · Random targets · High score |
 | 6 | - | [Homework 6](./Homework%206/) | Not assigned yet | |
 | 7 | - | [Homework 7](./Homework%207/) | Not assigned yet | |
 | 8 | - | [Homework 8](./Homework%208/) | Not assigned yet | |
