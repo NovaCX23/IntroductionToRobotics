@@ -81,9 +81,9 @@ Everything else is ignored: LEFT and RIGHT, the button outside a round, UP durin
 
 ## Hardware and wiring
 
-**Components:** ESP32 DevKit (ESP32-WROOM-32), 74HC595 shift register, 4-digit 7-segment display (common cathode), 8 × 1 kΩ resistors (one per segment line A–G and DP), analog joystick module (HW-504), breadboard + mini breadboard, jumper wires (female-male for the joystick), USB cable.
+**Components:** ESP32 DevKit (ESP32-WROOM-32), 74HC595 shift register, 4-digit 7-segment display (common cathode), 8 × 1 kΩ resistors (one per segment line A–G and DP), analog joystick module (HW-504), 100 nF decoupling capacitor, breadboard + mini breadboard, jumper wires (female-male for the joystick), USB cable.
 
-The optional 100 nF decoupling capacitor from the lab was **not** used.
+I also used the optional **100 nF decoupling capacitor** from the lab, placed on the 3.3 V power rail with one leg in **+** and one in **−**. Its + leg sits in the same hole as the red wire that feeds the 74HC595, so it's right where the chip takes its power. It smooths the small, fast current spikes on the supply each time the outputs switch.
 
 | Component / signal | Connection |
 |---|---|
@@ -92,6 +92,7 @@ The optional 100 nF decoupling capacitor from the lab was **not** used.
 | 74HC595 STCP (latch) | `GPIO22` |
 | 74HC595 VCC | 3V3 |
 | 74HC595 GND | GND |
+| 100 nF capacitor | across the 3.3 V rail (+ and −), + leg in the same hole as the 74HC595's red supply wire (decoupling) |
 | 74HC595 MR (reset, active LOW) | 3V3 (never reset) |
 | 74HC595 OE (output enable, active LOW) | GND (outputs always on) |
 | 74HC595 Q7S (serial out) | not connected |
@@ -122,6 +123,7 @@ flowchart LR
     G23 -->|DS| SR["74HC595"]
     G18 -->|SHCP| SR
     G22 -->|STCP| SR
+    CAP["100 nF capacitor<br/>across 3V3 and GND"] ---|decoupling| SR
     SR -->|"Q7..Q0"| R["8 × 1 kΩ"]
     R -->|"A, B, C, D, E, F, G, DP"| DISP["4-digit 7-segment display<br/>common cathode"]
     GD -->|"D1, D2, D3, D4"| DISP
